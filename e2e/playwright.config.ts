@@ -1,4 +1,6 @@
+import { currentsReporter } from '@currents/playwright';
 import { defineConfig, devices } from '@playwright/test';
+import currentsConfig from './currents.config';
 
 export default defineConfig({
 	testDir: './tests',
@@ -8,7 +10,12 @@ export default defineConfig({
 	workers: process.env.CI ? 2 : 1,
 	timeout: 60_000,
 	expect: { timeout: 15_000 },
-	reporter: [['list'], ['html', { open: 'never' }], ['json', { outputFile: 'test-results.json' }]],
+	reporter: [
+		['list'],
+		['html', { open: 'never' }],
+		['json', { outputFile: 'test-results.json' }],
+		...(process.env.CURRENTS_RECORD_KEY ? [currentsReporter(currentsConfig)] : []),
+	],
 	use: {
 		...devices['Desktop Chrome'],
 		baseURL: process.env.DIRECTUS_URL ?? 'http://localhost:8055',
