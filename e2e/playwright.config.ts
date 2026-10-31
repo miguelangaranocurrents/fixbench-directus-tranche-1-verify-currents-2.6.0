@@ -13,8 +13,9 @@ export default defineConfig({
 		...devices['Desktop Chrome'],
 		baseURL: process.env.DIRECTUS_URL ?? 'http://localhost:8055',
 		viewport: { width: 1440, height: 900 },
-		trace: 'retain-on-failure',
-		screenshot: 'only-on-failure',
+		trace: 'on',
+		video: 'on',
+		screenshot: 'on',
 	},
 	projects: [{ name: 'chromium' }],
 });
